@@ -1,0 +1,52 @@
+package controlador;
+
+import java.util.List;
+
+import org.hibernate.ObjectNotFoundException;
+import org.hibernate.query.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
+import model.*;
+
+public class Operaciones{
+	
+	public static void main(String[] args) {
+		SessionFactory factory= HibernateUtil.buildSessionFactory();
+		Session session= factory.openSession();
+		Transaction transaction= session.beginTransaction();
+		TLineas linea= session.load(TLineas.class,1);
+		System.out.println(linea.getCodLinea());
+		transaction.commit();
+		session.close();
+		Operaciones op=new Operaciones();
+		op.addLineaEstacion(5, 5, 5);
+	}
+	
+	
+	
+	public boolean addLineaEstacion(int idLinea,int idEstacion,int orden) {
+		SessionFactory factory= HibernateUtil.buildSessionFactory();
+		Session session= factory.openSession();
+		Transaction transaction= session.beginTransaction();
+		try {
+			TLineas tLineas=session.load(TLineas.class,idLinea);
+			TEstaciones tEstaciones= session.load(TEstaciones.class, idEstacion);
+			TLineaEstacion tLineaEstacionId=session.load(TLineaEstacion.class,
+					new TLineaEstacionId(tLineas.getCodLinea(),tEstaciones.getCodEstacion()));
+			
+			TLineaEstacion tLineaEstacion= new TLineaEstacion(new TLineaEstacionId(tLineas.getCodLinea()
+					,tEstaciones.getCodEstacion()),tEstaciones,tLineas,orden);
+			
+			transaction.commit();
+		}catch(ObjectNotFoundException onfe) {
+			session.close();
+			return false;
+		}
+		
+		session.close();
+		return true;
+	}
+
+}
