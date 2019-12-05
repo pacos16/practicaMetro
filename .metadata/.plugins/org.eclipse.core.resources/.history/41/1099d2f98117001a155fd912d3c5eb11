@@ -1,0 +1,148 @@
+package controlador;
+
+import java.util.List;
+
+import org.hibernate.ObjectNotFoundException;
+import org.hibernate.query.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
+import model.*;
+
+public class Operaciones{
+	
+	
+	public boolean addLineaEstacion(int idLinea,int idEstacion,int orden) {
+		SessionFactory factory= HibernateUtil.buildSessionFactory();
+		Session session= factory.openSession();
+		Transaction transaction= session.beginTransaction();
+		try {
+			TLineas tLineas=session.load(TLineas.class,idLinea);
+			TEstaciones tEstaciones= session.load(TEstaciones.class, idEstacion);
+			TLineaEstacion tLineaEstacionId=session.load(TLineaEstacion.class,
+					new TLineaEstacionId(tLineas.getCodLinea(),tEstaciones.getCodEstacion()));
+			List list=session.createQuery("From TLineaEstacion as t where t.TLineas= :tLineas and t.orden= :orden")
+			.setParameter("tLineas", tLineas).setParameter("orden",orden).list();
+			if(list.size()!=0) {
+				System.out.println("FUck");
+				return false;
+			}
+			TLineaEstacion tLineaEstacion= new TLineaEstacion(new TLineaEstacionId(tLineas.getCodLinea()
+					,tEstaciones.getCodEstacion()),tEstaciones,tLineas,orden);
+			
+			session.save(tLineaEstacion);
+			
+			transaction.commit();
+		}catch(ObjectNotFoundException onfe) {
+			session.close();
+			return false;
+		}
+		
+		session.close();
+		return true;
+	}
+	
+	//Update estacion
+	
+	public TEstaciones buscarEstacion(int codEstacion) {
+		SessionFactory factory= HibernateUtil.buildSessionFactory();
+		Session session= factory.openSession();
+		Transaction transaction= session.beginTransaction();	
+		try {
+			TEstaciones estacion=(TEstaciones) session.get(TEstaciones.class, codEstacion);
+			transaction.commit();
+			session.close();
+			
+			return estacion;
+		}catch(ObjectNotFoundException onfe) {
+			transaction.commit();
+			session.close();
+			
+			return null;
+		}
+		
+	}
+	
+	public int updateNumAccesos(int codEstacion,int numAccesos) {
+		SessionFactory factory= HibernateUtil.buildSessionFactory();
+		Session session= factory.openSession();
+		Transaction transaction= session.beginTransaction();
+		Query query= session.createQuery("update TEstaciones as e set e.numaccesos =:numaccesos where e.codEstacion=:codEstacion")
+				.setParameter("numaccesos",numAccesos).setParameter("codEstacion",codEstacion);	
+		int result=	query.executeUpdate();
+		transaction.commit();
+		session.close();
+		return result;
+		
+	}
+	
+	public int updateNumLineas(int codEstacion,int numLineas) {
+		SessionFactory factory= HibernateUtil.buildSessionFactory();
+		Session session= factory.openSession();
+		Transaction transaction= session.beginTransaction();
+		Query query= session.createQuery("update TEstaciones as e set e.numlineas =:numlineas where e.codEstacion=:codEstacion")
+				.setParameter("numlineas",numLineas).setParameter("codEstacion",codEstacion);	
+		int result=	query.executeUpdate();
+		transaction.commit();
+		session.close();
+		return result;
+		
+	}
+	public int updateViajesDestino(int codEstacion,int numViajesDestino) {
+		SessionFactory factory= HibernateUtil.buildSessionFactory();
+		Session session= factory.openSession();
+		Transaction transaction= session.beginTransaction();
+		Query query= session.createQuery("update TEstaciones as e set e.numviajesdestino =:numviajesdestino where e.codEstacion=:codEstacion")
+				.setParameter("numviajesdestino",numViajesDestino).setParameter("codEstacion",codEstacion);	
+		int result=	query.executeUpdate();
+		transaction.commit();
+		session.close();
+		return result;
+		
+	}
+	public int updateViajesProcedencia(int codEstacion,int numViajesProcedencia) {
+		SessionFactory factory= HibernateUtil.buildSessionFactory();
+		Session session= factory.openSession();
+		Transaction transaction= session.beginTransaction();
+		Query query= session.createQuery("update TEstaciones as e set e.numviajesprocedencia =:numviajesprocedencia where e.codEstacion=:codEstacion")
+				.setParameter("numviajesprocedencia",numViajesProcedencia).setParameter("codEstacion",codEstacion);	
+		int result=	query.executeUpdate();
+		transaction.commit();
+		session.close();
+		return result;
+		
+	}
+	
+	//SelectTrenes
+	
+	public ArrayList<TTrenes> getTrenes() {
+		SessionFactory factory= HibernateUtil.buildSessionFactory();
+		Session session= factory.openSession();
+		Transaction transaction= session.beginTransaction();
+		
+		ArrayList<TTrenes> list= (ArrayList<TTrenes>) session.createQuery("from TTrenes").list();
+		
+		transaction.commit();
+		session.close();
+		return list;
+		
+	}
+	
+	
+	
+	
+	/* 
+	SessionFactory factory= HibernateUtil.buildSessionFactory();
+	Session session= factory.openSession();
+	Transaction transaction= session.beginTransaction();
+	
+	session.save();
+			
+	transaction.commit();
+	session.close();
+	
+	 */
+	 
+
+}

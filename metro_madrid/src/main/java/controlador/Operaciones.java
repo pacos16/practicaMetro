@@ -1,5 +1,6 @@
 package controlador;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.ObjectNotFoundException;
@@ -12,11 +13,14 @@ import model.*;
 
 public class Operaciones{
 	
+	private SessionFactory factory;
+	private Session session;
+	private Transaction transaction;
 	
 	public boolean addLineaEstacion(int idLinea,int idEstacion,int orden) {
-		SessionFactory factory= HibernateUtil.buildSessionFactory();
-		Session session= factory.openSession();
-		Transaction transaction= session.beginTransaction();
+		factory= HibernateUtil.buildSessionFactory();
+		session= factory.openSession();
+		transaction= session.beginTransaction();
 		try {
 			TLineas tLineas=session.load(TLineas.class,idLinea);
 			TEstaciones tEstaciones= session.load(TEstaciones.class, idEstacion);
@@ -46,10 +50,9 @@ public class Operaciones{
 	//Update estacion
 	
 	public TEstaciones buscarEstacion(int codEstacion) {
-		SessionFactory factory= HibernateUtil.buildSessionFactory();
-		Session session= factory.openSession();
-		Transaction transaction= session.beginTransaction();
-		
+		factory= HibernateUtil.buildSessionFactory();
+		session= factory.openSession();
+		transaction= session.beginTransaction();	
 		try {
 			TEstaciones estacion=(TEstaciones) session.get(TEstaciones.class, codEstacion);
 			transaction.commit();
@@ -62,16 +65,13 @@ public class Operaciones{
 			
 			return null;
 		}
-				
-		
- 
 		
 	}
 	
 	public int updateNumAccesos(int codEstacion,int numAccesos) {
-		SessionFactory factory= HibernateUtil.buildSessionFactory();
-		Session session= factory.openSession();
-		Transaction transaction= session.beginTransaction();
+		factory= HibernateUtil.buildSessionFactory();
+		session= factory.openSession();
+		transaction= session.beginTransaction();
 		Query query= session.createQuery("update TEstaciones as e set e.numaccesos =:numaccesos where e.codEstacion=:codEstacion")
 				.setParameter("numaccesos",numAccesos).setParameter("codEstacion",codEstacion);	
 		int result=	query.executeUpdate();
@@ -82,9 +82,9 @@ public class Operaciones{
 	}
 	
 	public int updateNumLineas(int codEstacion,int numLineas) {
-		SessionFactory factory= HibernateUtil.buildSessionFactory();
-		Session session= factory.openSession();
-		Transaction transaction= session.beginTransaction();
+		 factory= HibernateUtil.buildSessionFactory();
+		 session= factory.openSession();
+		 transaction= session.beginTransaction();
 		Query query= session.createQuery("update TEstaciones as e set e.numlineas =:numlineas where e.codEstacion=:codEstacion")
 				.setParameter("numlineas",numLineas).setParameter("codEstacion",codEstacion);	
 		int result=	query.executeUpdate();
@@ -94,9 +94,9 @@ public class Operaciones{
 		
 	}
 	public int updateViajesDestino(int codEstacion,int numViajesDestino) {
-		SessionFactory factory= HibernateUtil.buildSessionFactory();
-		Session session= factory.openSession();
-		Transaction transaction= session.beginTransaction();
+		 factory= HibernateUtil.buildSessionFactory();
+		session= factory.openSession();
+		 transaction= session.beginTransaction();
 		Query query= session.createQuery("update TEstaciones as e set e.numviajesdestino =:numviajesdestino where e.codEstacion=:codEstacion")
 				.setParameter("numviajesdestino",numViajesDestino).setParameter("codEstacion",codEstacion);	
 		int result=	query.executeUpdate();
@@ -106,9 +106,9 @@ public class Operaciones{
 		
 	}
 	public int updateViajesProcedencia(int codEstacion,int numViajesProcedencia) {
-		SessionFactory factory= HibernateUtil.buildSessionFactory();
-		Session session= factory.openSession();
-		Transaction transaction= session.beginTransaction();
+		 factory= HibernateUtil.buildSessionFactory();
+		session= factory.openSession();
+		transaction= session.beginTransaction();
 		Query query= session.createQuery("update TEstaciones as e set e.numviajesprocedencia =:numviajesprocedencia where e.codEstacion=:codEstacion")
 				.setParameter("numviajesprocedencia",numViajesProcedencia).setParameter("codEstacion",codEstacion);	
 		int result=	query.executeUpdate();
@@ -116,6 +116,24 @@ public class Operaciones{
 		session.close();
 		return result;
 		
+	}
+	
+	//SelectTrenes
+	
+	public ArrayList<TTrenes> getTrenes() {
+		factory= HibernateUtil.buildSessionFactory();
+		session= factory.openSession();
+		 transaction= session.beginTransaction();
+		Query q=session.createQuery("from TTrenes");
+		ArrayList<TTrenes> list= (ArrayList<TTrenes>) q.list();
+	
+		return list;
+		
+	}
+	
+	public void close() {
+		transaction.commit();
+		session.close();
 	}
 	
 	

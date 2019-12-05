@@ -1,0 +1,237 @@
+package vista;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import java.awt.GridBagLayout;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import javax.swing.JTextField;
+
+import controlador.Operaciones;
+import model.TTrenes;
+
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class SelectTrenes {
+
+	private JFrame frame;
+	private JTextField tfCodTren;
+	private JTextField tfNombre;
+	private JTextField tfTipo;
+	private JTextField tfLinea;
+	private JTextField tfCochera;
+	private List listTrenes;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					SelectTrenes window = new SelectTrenes();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public SelectTrenes() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		Operaciones operacion=new Operaciones();
+		List listTrenes= operacion.getTrenes();
+		frame = new JFrame();
+		frame.setBounds(100, 100, 490, 446);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		frame.getContentPane().setLayout(gridBagLayout);
+		
+		JLabel lblNewLabel = new JLabel("Consulta Trenes");
+		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		gbc_lblNewLabel.anchor = GridBagConstraints.EAST;
+		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel.gridx = 1;
+		gbc_lblNewLabel.gridy = 1;
+		frame.getContentPane().add(lblNewLabel, gbc_lblNewLabel);
+		
+		JButton btnLanzarConsulta = new JButton("Lanzar Consulta");
+		
+		GridBagConstraints gbc_btnLanzarConsulta = new GridBagConstraints();
+		gbc_btnLanzarConsulta.insets = new Insets(0, 0, 5, 5);
+		gbc_btnLanzarConsulta.gridx = 4;
+		gbc_btnLanzarConsulta.gridy = 1;
+		frame.getContentPane().add(btnLanzarConsulta, gbc_btnLanzarConsulta);
+		
+		JLabel lblNewLabel_1 = new JLabel("Cod Tren");
+		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+		gbc_lblNewLabel_1.anchor = GridBagConstraints.EAST;
+		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_1.gridx = 1;
+		gbc_lblNewLabel_1.gridy = 3;
+		frame.getContentPane().add(lblNewLabel_1, gbc_lblNewLabel_1);
+		
+		tfCodTren = new JTextField();
+		GridBagConstraints gbc_tfCodTren = new GridBagConstraints();
+		gbc_tfCodTren.insets = new Insets(0, 0, 5, 5);
+		gbc_tfCodTren.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfCodTren.gridx = 3;
+		gbc_tfCodTren.gridy = 3;
+		frame.getContentPane().add(tfCodTren, gbc_tfCodTren);
+		tfCodTren.setColumns(10);
+		
+		JLabel lblNewLabel_2 = new JLabel("Nombre");
+		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
+		gbc_lblNewLabel_2.anchor = GridBagConstraints.EAST;
+		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_2.gridx = 1;
+		gbc_lblNewLabel_2.gridy = 5;
+		frame.getContentPane().add(lblNewLabel_2, gbc_lblNewLabel_2);
+		
+		tfNombre = new JTextField();
+		tfNombre.setEditable(false);
+		GridBagConstraints gbc_tfNombre = new GridBagConstraints();
+		gbc_tfNombre.anchor = GridBagConstraints.NORTH;
+		gbc_tfNombre.insets = new Insets(0, 0, 5, 5);
+		gbc_tfNombre.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfNombre.gridx = 3;
+		gbc_tfNombre.gridy = 5;
+		frame.getContentPane().add(tfNombre, gbc_tfNombre);
+		tfNombre.setColumns(10);
+		
+		JLabel lblNewLabel_3 = new JLabel("Tipo");
+		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
+		gbc_lblNewLabel_3.anchor = GridBagConstraints.EAST;
+		gbc_lblNewLabel_3.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_3.gridx = 1;
+		gbc_lblNewLabel_3.gridy = 7;
+		frame.getContentPane().add(lblNewLabel_3, gbc_lblNewLabel_3);
+		
+		tfTipo = new JTextField();
+		tfTipo.setEditable(false);
+		GridBagConstraints gbc_tfTipo = new GridBagConstraints();
+		gbc_tfTipo.insets = new Insets(0, 0, 5, 5);
+		gbc_tfTipo.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfTipo.gridx = 3;
+		gbc_tfTipo.gridy = 7;
+		frame.getContentPane().add(tfTipo, gbc_tfTipo);
+		tfTipo.setColumns(10);
+		
+		JLabel lblNewLabel_4 = new JLabel("Linea");
+		GridBagConstraints gbc_lblNewLabel_4 = new GridBagConstraints();
+		gbc_lblNewLabel_4.anchor = GridBagConstraints.EAST;
+		gbc_lblNewLabel_4.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_4.gridx = 1;
+		gbc_lblNewLabel_4.gridy = 9;
+		frame.getContentPane().add(lblNewLabel_4, gbc_lblNewLabel_4);
+		
+		tfLinea = new JTextField();
+		tfLinea.setEditable(false);
+		GridBagConstraints gbc_tfLinea = new GridBagConstraints();
+		gbc_tfLinea.insets = new Insets(0, 0, 5, 5);
+		gbc_tfLinea.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfLinea.gridx = 3;
+		gbc_tfLinea.gridy = 9;
+		frame.getContentPane().add(tfLinea, gbc_tfLinea);
+		tfLinea.setColumns(10);
+		
+		JLabel lblNewLabel_5 = new JLabel("Cochera");
+		GridBagConstraints gbc_lblNewLabel_5 = new GridBagConstraints();
+		gbc_lblNewLabel_5.anchor = GridBagConstraints.EAST;
+		gbc_lblNewLabel_5.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel_5.gridx = 1;
+		gbc_lblNewLabel_5.gridy = 11;
+		frame.getContentPane().add(lblNewLabel_5, gbc_lblNewLabel_5);
+		
+		tfCochera = new JTextField();
+		tfCochera.setEditable(false);
+		GridBagConstraints gbc_tfCochera = new GridBagConstraints();
+		gbc_tfCochera.insets = new Insets(0, 0, 5, 5);
+		gbc_tfCochera.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfCochera.gridx = 3;
+		gbc_tfCochera.gridy = 11;
+		frame.getContentPane().add(tfCochera, gbc_tfCochera);
+		tfCochera.setColumns(10);
+		
+		JButton btnNewButton = new JButton("New button");
+		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
+		gbc_btnNewButton.insets = new Insets(0, 0, 0, 5);
+		gbc_btnNewButton.gridx = 1;
+		gbc_btnNewButton.gridy = 13;
+		frame.getContentPane().add(btnNewButton, gbc_btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("New button");
+		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
+		gbc_btnNewButton_1.insets = new Insets(0, 0, 0, 5);
+		gbc_btnNewButton_1.gridx = 3;
+		gbc_btnNewButton_1.gridy = 13;
+		frame.getContentPane().add(btnNewButton_1, gbc_btnNewButton_1);
+		
+		JButton btnNewButton_2 = new JButton("New button");
+		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
+		gbc_btnNewButton_2.insets = new Insets(0, 0, 0, 5);
+		gbc_btnNewButton_2.gridx = 4;
+		gbc_btnNewButton_2.gridy = 13;
+		frame.getContentPane().add(btnNewButton_2, gbc_btnNewButton_2);
+		
+		JButton btnNewButton_3 = new JButton("New button");
+		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
+		gbc_btnNewButton_3.gridx = 5;
+		gbc_btnNewButton_3.gridy = 13;
+		frame.getContentPane().add(btnNewButton_3, gbc_btnNewButton_3);
+		
+		//Codigo importante
+		
+		btnLanzarConsulta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			buscarYCargarTren();
+				
+			}
+		});
+		
+		
+	}
+	private void buscarYCargarTren() {
+		TTrenes t=null;
+		try {
+			
+			int idTren= Integer.parseInt(tfCodTren.getText());
+			for (TTrenes tren: listTrenes) {
+				if(idTren==tren.getCodTren()) {
+					t=tren;
+				}
+			}
+			}catch(NumberFormatException nfe) {
+				JOptionPane.showMessageDialog(null,"Solo numeros");
+			}
+		if(t!=null) {
+		  tfNombre.setText(t.getNombre());
+		  tfLinea.setText(t.getTLineas().getNombre());
+		  tfTipo.setText(t.getTipo());
+		  tfCochera.setText(t.getTCocheras().getNombre());
+		}else {
+			JOptionPane.showMessageDialog(null, "Este tren no existe");
+		}
+	}
+
+}

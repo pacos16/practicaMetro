@@ -4,7 +4,10 @@
     <fullyQualifiedTypeName name="java.lang.NumberFormatException"/>
     <fullyQualifiedTypeName name="javax.swing.JPanel"/>
     <fullyQualifiedTypeName name="org.hibernate.ObjectNotFoundException"/>
-    <fullyQualifiedTypeName name="controlador.Operaciones"/>
     <fullyQualifiedTypeName name="model.TEstaciones"/>
+    <fullyQualifiedTypeName name="controlador.Operaciones"/>
+    <fullyQualifiedTypeName name="model.TTrenes"/>
     <fullyQualifiedTypeName name="javax.swing.JOptionPane"/>
+    <fullyQualifiedTypeName name="org.hibernate.mapping.List"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
 </qualifiedTypeNameHistroy>
